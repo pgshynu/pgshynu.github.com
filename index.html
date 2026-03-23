@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dr. Shynu P. G. | Professor, VIT Vellore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #1a1a18; --ink-soft: #4a4a46; --ink-muted: #8a8a84;
+      --paper: #f5f3ee; --paper-warm: #edeae2;
+      --accent: #b5470e; --accent-light: #f0e8e2; --rule: #d8d4c8;
+      --font-serif: 'Lora', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-sans: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-weight: 300; line-height: 1.7; }
+
+    .layout { display: grid; grid-template-columns: 290px 1fr; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 290px; height: 100vh;
+      background: var(--ink); color: var(--paper);
+      display: flex; flex-direction: column; padding: 2.2rem 1.8rem; overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #444; }
+
+    .avatar {
+      width: 68px; height: 68px; border-radius: 50%; background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 1.5rem; color: #fff; margin-bottom: 1rem; flex-shrink: 0;
+    }
+    .s-name { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 0.15rem; }
+    .s-creds { font-family: var(--font-mono); font-size: 0.63rem; color: #aaa89e; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .s-title { font-family: var(--font-mono); font-size: 0.62rem; color: #aaa89e; letter-spacing: 0.04em; line-height: 1.6; text-transform: uppercase; margin-bottom: 1.2rem; }
+
+    .stat-row { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .stat-pill { background: #2a2a26; border: 1px solid #3a3a36; border-radius: 3px; padding: 0.28rem 0.5rem; text-align: center; }
+    .stat-pill .num { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 600; color: #fff; line-height: 1; }
+    .stat-pill .lbl { font-family: var(--font-mono); font-size: 0.55rem; color: #aaa89e; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-top: 1px; }
+
+    .s-rule { width: 100%; height: 1px; background: #2e2e2a; margin-bottom: 1.2rem; }
+
+    .s-nav { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .s-nav a { display: block; padding: 0.35rem 0.65rem; color: #aaa89e; text-decoration: none; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+    .s-nav a:hover, .s-nav a.active { color: #fff; border-left-color: var(--accent); }
+
+    .s-links { margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid #2e2e2a; }
+    .s-links a { display: flex; align-items: center; gap: 0.45rem; color: #aaa89e; text-decoration: none; font-size: 0.72rem; font-family: var(--font-mono); margin-bottom: 0.5rem; transition: color 0.2s; }
+    .s-links a:hover { color: #fff; }
+    .s-links svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; flex-shrink: 0; }
+
+    /* MAIN */
+    .main { margin-left: 290px; padding: 4.5rem 5rem 5rem; max-width: 880px; }
+
+    .section { margin-bottom: 4.5rem; opacity: 0; transform: translateY(18px); animation: fadeUp 0.5s ease forwards; }
+    .section:nth-child(1)  { animation-delay: 0.05s; } .section:nth-child(2)  { animation-delay: 0.12s; }
+    .section:nth-child(3)  { animation-delay: 0.19s; } .section:nth-child(4)  { animation-delay: 0.26s; }
+    .section:nth-child(5)  { animation-delay: 0.33s; } .section:nth-child(6)  { animation-delay: 0.40s; }
+    .section:nth-child(7)  { animation-delay: 0.47s; } .section:nth-child(8)  { animation-delay: 0.54s; }
+    .section:nth-child(9)  { animation-delay: 0.61s; } .section:nth-child(10) { animation-delay: 0.68s; }
+    .section:nth-child(11) { animation-delay: 0.75s; } .section:nth-child(12) { animation-delay: 0.82s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    .sec-lbl { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.3rem; display: flex; align-items: center; gap: 0.7rem; }
+    .sec-lbl::after { content: ''; display: block; height: 1px; width: 44px; background: var(--accent); opacity: 0.4; }
+
+    /* HERO */
+    .hero-greet { font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink-muted); margin-bottom: 0.4rem; letter-spacing: 0.06em; }
+    .hero-h1 { font-family: var(--font-serif); font-size: clamp(1.9rem, 3.2vw, 2.7rem); font-weight: 600; line-height: 1.2; margin-bottom: 0.3rem; }
+    .hero-h1 span { color: var(--accent); }
+    .hero-sub { font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink-muted); margin-bottom: 1.1rem; letter-spacing: 0.05em; }
+    .hero-bio { font-size: 0.98rem; color: var(--ink-soft); max-width: 600px; line-height: 1.85; margin-bottom: 1.4rem; }
+    .hero-bio strong { color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { background: var(--accent-light); color: var(--accent); font-family: var(--font-mono); font-size: 0.65rem; padding: 0.25rem 0.65rem; border-radius: 2px; letter-spacing: 0.05em; }
+
+    /* METRICS */
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 2.2rem; }
+    .m-cell { background: var(--paper-warm); padding: 0.9rem 1.2rem; flex: 1; min-width: 100px; text-align: center; }
+    .m-num { font-family: var(--font-serif); font-size: 1.7rem; font-weight: 600; color: var(--accent); line-height: 1; }
+    .m-lbl { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 3px; }
+
+    /* ABOUT */
+    .about-text { font-size: 0.96rem; color: var(--ink-soft); line-height: 1.9; }
+    .about-text p + p { margin-top: 1rem; }
+    .about-text strong { color: var(--ink); font-weight: 500; }
+
+    /* RESEARCH */
+    .interest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.8rem; }
+    .i-card { background: var(--paper-warm); border: 1px solid var(--rule); padding: 1rem 1.1rem; border-radius: 4px; transition: border-color 0.2s, transform 0.2s; }
+    .i-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .i-icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .i-name { font-weight: 500; font-size: 0.86rem; color: var(--ink); margin-bottom: 0.25rem; }
+    .i-desc { font-size: 0.76rem; color: var(--ink-muted); line-height: 1.5; }
+
+    /* PUBLICATIONS */
+    .pub-list { display: flex; flex-direction: column; gap: 1.1rem; }
+    .pub { border-left: 3px solid var(--rule); padding-left: 1.1rem; transition: border-color 0.2s; }
+    .pub:hover { border-left-color: var(--accent); }
+    .pub-t { font-family: var(--font-serif); font-size: 0.92rem; font-weight: 600; font-style: italic; color: var(--ink); margin-bottom: 0.18rem; }
+    .pub-a { font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 0.18rem; }
+    .pub-a strong { color: var(--ink-soft); font-weight: 500; }
+    .pub-v { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); }
+    .pub-m { font-family: var(--font-mono); font-size: 0.63rem; color: var(--ink-muted); margin-top: 0.15rem; }
+
+    .sub-head { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted); margin: 1.8rem 0 0.9rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--rule); }
+
+    /* PATENTS */
+    .patent-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .pat { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.9rem 1rem; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px; transition: border-color 0.2s; }
+    .pat:hover { border-color: var(--accent); }
+    .pat-yr { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); background: var(--accent-light); padding: 0.22rem 0.45rem; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+    .pat-t { font-size: 0.86rem; color: var(--ink); margin-bottom: 0.15rem; }
+    .pat-n { font-family: var(--font-mono); font-size: 0.63rem; color: var(--ink-muted); }
+
+    /* TEACHING */
+    .teach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .t-card { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px; padding: 1.1rem; }
+    .t-head { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.7rem; padding-bottom: 0.55rem; border-bottom: 1px solid var(--rule); }
+    .c-tag { display: block; font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; }
+    .c-tag::before { content: '· '; color: var(--accent); }
+    .teach-note { margin-top: 1.1rem; padding: 0.9rem 1.1rem; background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0; font-size: 0.83rem; color: var(--ink-soft); line-height: 1.75; }
+    .teach-note strong { color: var(--ink); font-weight: 500; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 1.2rem; padding-bottom: 1.8rem; position: relative; }
+    .tl-item::before { content: ''; position: absolute; left: 120px; top: 9px; bottom: 0; width: 1px; background: var(--rule); transform: translateX(calc(-1.2rem + 4px)); }
+    .tl-item:last-child::before { display: none; }
+    .tl-dot { position: absolute; left: 120px; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); transform: translateX(calc(-1.2rem + 1px)); }
+    .tl-yr { font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-muted); text-align: right; padding-top: 1px; line-height: 1.5; }
+    .tl-body { padding-left: 0.7rem; }
+    .tl-role { font-weight: 500; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.1rem; }
+    .tl-org { font-size: 0.8rem; color: var(--accent); margin-bottom: 0.3rem; }
+    .tl-desc { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65; }
+
+    /* SUPERVISION */
+    .sup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.3rem; }
+    .sup-card { background: var(--paper-warm); border: 1px solid var(--rule); padding: 1rem; border-radius: 4px; text-align: center; }
+    .sup-num { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 600; color: var(--accent); line-height: 1; }
+    .sup-lbl { font-family: var(--font-mono); font-size: 0.63rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 4px; }
+    .phd-item { padding: 0.85rem 1.05rem; background: var(--paper-warm); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0; margin-bottom: 0.7rem; }
+    .phd-t { font-size: 0.86rem; color: var(--ink); font-style: italic; margin-bottom: 0.18rem; }
+    .phd-d { font-size: 0.76rem; color: var(--ink-muted); }
+
+    /* SERVICE */
+    .svc-list { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 0.5rem; }
+    .svc { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.8rem 0.95rem; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px; transition: border-color 0.2s; }
+    .svc:hover { border-color: var(--accent); }
+    .svc-badge { font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent); background: var(--accent-light); padding: 0.18rem 0.42rem; border-radius: 2px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; white-space: nowrap; }
+    .svc-text { font-size: 0.84rem; color: var(--ink-soft); line-height: 1.6; }
+    .svc-text strong { color: var(--ink); font-weight: 500; }
+
+    /* AWARDS */
+    .award-list { display: flex; flex-direction: column; gap: 0.65rem; }
+    .award { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.85rem 1rem; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px; }
+    .award-icon { font-size: 1.05rem; flex-shrink: 0; margin-top: 1px; }
+    .award-text { font-size: 0.84rem; color: var(--ink-soft); line-height: 1.65; }
+    .award-text strong { color: var(--ink); font-weight: 500; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+    .c-card { background: var(--paper-warm); border: 1px solid var(--rule); padding: 1rem 1.1rem; border-radius: 4px; display: flex; align-items: flex-start; gap: 0.8rem; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+    .c-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .c-icon { width: 32px; height: 32px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .c-icon svg { width: 14px; height: 14px; fill: none; stroke: var(--accent); stroke-width: 1.8; }
+    .c-lbl { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 0.12rem; }
+    .c-val { font-size: 0.83rem; color: var(--ink); }
+
+    .footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-muted); letter-spacing: 0.04em; line-height: 1.8; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; width: 100%; height: auto; padding: 1.5rem; }
+      .s-nav { flex-direction: row; flex-wrap: wrap; }
+      .s-nav a { border-left: none; border-bottom: 2px solid transparent; }
+      .s-nav a:hover { border-bottom-color: var(--accent); border-left: none; }
+      .s-links { display: flex; flex-wrap: wrap; gap: 1rem; border: none; padding: 0; margin: 0; }
+      .main { margin-left: 0; padding: 2.5rem 1.5rem; }
+      .teach-grid, .sup-grid, .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="avatar">SG</div>
+    <div class="s-name">Shynu P. G.</div>
+    <div class="s-creds">M.E., Ph.D.</div>
+    <div class="s-title">Professor (Grade 1)<br>School of CS &amp; Engineering<br>VIT Vellore, Tamil Nadu, India</div>
+
+    <div class="stat-row">
+      <div class="stat-pill"><div class="num">55+</div><span class="lbl">Papers</span></div>
+      <div class="stat-pill"><div class="num">14</div><span class="lbl">h-index</span></div>
+      <div class="stat-pill"><div class="num">777</div><span class="lbl">Citations</span></div>
+      <div class="stat-pill"><div class="num">24+</div><span class="lbl">Yrs</span></div>
+    </div>
+
+    <div class="s-rule"></div>
+
+    <nav><ul class="s-nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#patents">Patents</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#supervision">Supervision</a></li>
+      <li><a href="#service">Service</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul></nav>
+
+    <div class="s-links">
+      <a href="mailto:pgshynu@gmail.com"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>pgshynu@gmail.com</a>
+      <a href="#" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Google Scholar</a>
+      <a href="#" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Scopus</a>
+      <a href="#" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ORCID</a>
+      <a href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+      <a href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Web of Science</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section class="section" id="top">
+      <div class="hero-greet">Professor · Researcher · Innovator</div>
+      <h1 class="hero-h1"><span>Shynu Padinjappurathu</span> Gopalan</h1>
+      <div class="hero-sub">M.E., Ph.D. &nbsp;·&nbsp; Senior Member, IEEE &nbsp;·&nbsp; Member, ACM</div>
+      <p class="hero-bio">Professor of Computer Science with <strong>over 24 years</strong> of university-level teaching, research, and academic leadership across UG/PG programmes. Expertise spans <strong>AI-enabled software engineering, social network analysis, cybersecurity</strong>, and cloud/edge computing. Author of <strong>55+ publications</strong> in reputed venues (IEEE, Elsevier, Springer) with 38 articles indexed in Scopus (2025). Experienced in ABET-aligned, activity-led, and outcome-based curriculum design.</p>
+      <div class="tags">
+        <span class="tag">Cybersecurity &amp; Privacy</span>
+        <span class="tag">AI for Digital Health</span>
+        <span class="tag">Social Network Analysis</span>
+        <span class="tag">Digital Twins</span>
+        <span class="tag">Edge AI</span>
+        <span class="tag">Federated Learning</span>
+        <span class="tag">Cloud Computing</span>
+      </div>
+    </section>
+
+    <!-- METRICS + ABOUT -->
+    <section class="section" id="about">
+      <div class="sec-lbl">Scientometric Indicators <span style="font-size:0.58rem;opacity:0.6;margin-left:0.3rem">(as of Oct 2025)</span></div>
+      <div class="metrics">
+        <div class="m-cell"><div class="m-num">38</div><div class="m-lbl">Scopus Papers</div></div>
+        <div class="m-cell"><div class="m-num">777</div><div class="m-lbl">Scopus Cites</div></div>
+        <div class="m-cell"><div class="m-num">966</div><div class="m-lbl">Scholar Cites</div></div>
+        <div class="m-cell"><div class="m-num">14</div><div class="m-lbl">h-index (Scopus)</div></div>
+        <div class="m-cell"><div class="m-num">15</div><div class="m-lbl">h-index (Scholar)</div></div>
+      </div>
+
+      <div class="sec-lbl" style="margin-top:2.2rem">About</div>
+      <div class="about-text">
+        <p>I am a <strong>Professor (Grade 1)</strong> in the School of Computer Science &amp; Engineering at <strong>Vellore Institute of Technology (VIT), Vellore</strong>, Tamil Nadu, India. I joined VIT in April 2010 and have progressively advanced from Assistant Professor to the current role.</p>
+        <p>My doctoral research at VIT University (awarded 26 June 2018) was in <strong>cloud security and access control</strong>. Since then I have built an active research programme in AI-driven healthcare, cybersecurity, misinformation dynamics, digital twins, and sustainable edge/cloud computing, collaborating with researchers internationally and within India.</p>
+        <p>Over <strong>90% of my publications</strong> are available in Open Access venues (IEEE Access, Scientific Reports, MDPI). I strongly advocate Open Science practices including preprint sharing, dataset/code availability, and reproducible methodologies.</p>
+        <p>Prior to VIT I served as Assistant Professor at Union Christian College, Kerala (2006–2010), Lecturer at M.A. College of Engineering, Kerala (2001–2002), and Software Engineer at Aggies InfoTech Pvt. Ltd. (2000–2001). <em>Note: Earlier publications are indexed as "Shynu P G"; all works are uniformly cited here as "Shynu Padinjappurathu Gopalan".</em></p>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section class="section" id="research">
+      <div class="sec-lbl">Research Interests</div>
+      <div class="interest-grid">
+        <div class="i-card"><div class="i-icon">🔐</div><div class="i-name">Cybersecurity &amp; Privacy</div><div class="i-desc">Access control, federated learning, blockchain trust, GDPR/EU AI Act alignment</div></div>
+        <div class="i-card"><div class="i-icon">🏥</div><div class="i-name">AI for Digital Health</div><div class="i-desc">Disease prediction, neurodegenerative prognostics, multimodal biomarkers, XAI</div></div>
+        <div class="i-card"><div class="i-icon">📡</div><div class="i-name">Social Network Analysis</div><div class="i-desc">Misinformation modelling, Rumor Dynamics, Influence Maximization</div></div>
+        <div class="i-card"><div class="i-icon">🤖</div><div class="i-name">Digital Twins &amp; Edge AI</div><div class="i-desc">Trustworthy twins for health/industry, edge intelligence, RL-driven IoT</div></div>
+        <div class="i-card"><div class="i-icon">🌱</div><div class="i-name">Green &amp; Sustainable ICT</div><div class="i-desc">Energy-efficient edge/cloud computing, QoS for smart healthcare</div></div>
+        <div class="i-card"><div class="i-icon">🔬</div><div class="i-name">Interdisciplinary Integration</div><div class="i-desc">AI, cybersecurity, healthcare informatics, regulatory science</div></div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section class="section" id="publications">
+      <div class="sec-lbl">Publications</div>
+
+      <div class="sub-head">Journal Articles</div>
+      <div class="pub-list">
+        <div class="pub"><div class="pub-t">A Novel Framework for Secure and Interoperable Digital Twins in the Industrial Metaverse</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">Enterprise Information Systems, Taylor &amp; Francis (2025, under review)</div><div class="pub-m">IF: 3.9 · Q2</div></div>
+        <div class="pub"><div class="pub-t">Epidemic modeling for misinformation spread in digital networks through a social intelligence approach</div><div class="pub-a">Govindankutty, S. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">Scientific Reports, 14(1), 19100 (2024)</div><div class="pub-m">IF: 4.6 · Q1 · Citations: 5 · doi:10.1038/s41598-024-69657-0</div></div>
+        <div class="pub"><div class="pub-t">Unlocking the potential of digital twins</div><div class="pub-a">Manickam, S., Yarlagadda, L., <strong>Shynu Padinjappurathu Gopalan</strong> &amp; Chowdhary, C.L.</div><div class="pub-v">IEEE Access, 11, 135147–135158 (2023)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 8 · doi:10.1109/ACCESS.2023.3338530</div></div>
+        <div class="pub"><div class="pub-t">Modeling rumor spread and influencer impact</div><div class="pub-a">Govindankutty, S. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">IEEE Access, 11, 121617–121628 (2023)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 10 · doi:10.1109/ACCESS.2023.3327863</div></div>
+        <div class="pub"><div class="pub-t">From fake reviews to fake news</div><div class="pub-a">Govindankutty, S. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">Journal of Theoretical and Applied Electronic Commerce Research, 18(2), 1069–1085 (2023)</div><div class="pub-m">IF: 7.0 · Q1 · Citations: 20 · doi:10.3390/jtaer18020054</div></div>
+        <div class="pub"><div class="pub-t">SEDIS – A rumor propagation model</div><div class="pub-a">Govindankutty, S. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">Systems, 11(1), 12 (2023)</div><div class="pub-m">IF: 2.9 · Q2 · Citations: 6 · doi:10.3390/systems11010012</div></div>
+        <div class="pub"><div class="pub-t">An efficient and privacy-preserving scheme for disease prediction</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong>, Chowdhary, C.L., Iwendi, C., Farid, M.A. &amp; Ramasamy, L.K.</div><div class="pub-v">Sensors, 22(15), 5574 (2022)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 25 · doi:10.3390/s22155574</div></div>
+        <div class="pub"><div class="pub-t">Data-centric routing and caching for mobile/social sensing</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; Al-Turjman, F.</div><div class="pub-v">Computers &amp; Electrical Engineering, 94, 107357 (2021)</div><div class="pub-m">IF: 4.3 · Q1 · Citations: 32 · doi:10.1016/j.compeleceng.2021.107357</div></div>
+        <div class="pub"><div class="pub-t">Detection of diabetic retinopathy</div><div class="pub-a">Ramasamy, L.K., <strong>Shynu Padinjappurathu Gopalan</strong>, Kadry, S. &amp; Damaševicius, R.</div><div class="pub-v">PeerJ Computer Science, 7, e456 (2021)</div><div class="pub-m">IF: 2.3 · Q2 · Citations: 19 · doi:10.7717/peerj-cs.456</div></div>
+        <div class="pub"><div class="pub-t">Blockchain-based secure healthcare application</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong>, Menon, V.G., Kumar, R., Kadry, S. &amp; Nam, Y.</div><div class="pub-v">IEEE Access, 9, 3065440 (2021)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 40 · doi:10.1109/ACCESS.2021.3065440</div></div>
+        <div class="pub"><div class="pub-t">Secrecy outage probability</div><div class="pub-a">Li, H., Chen, Y., Zhu, M., Sun, J., Do, D.-T., Menon, V.G. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">IEEE Access, 9, 1655–1665 (2021)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 35 · doi:10.1109/ACCESS.2020.3047136</div></div>
+        <div class="pub"><div class="pub-t">Centralized cluster-based hierarchical approach</div><div class="pub-a">Yang, G., Jan, M.A., Menon, V.G., <strong>Shynu Padinjappurathu Gopalan</strong>, Aimal, M.M. &amp; Alshehri, M.D.</div><div class="pub-v">IEEE Access, 8, 101464–101475 (2020)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 45 · doi:10.1109/ACCESS.2020.2998452</div></div>
+        <div class="pub"><div class="pub-t">A secure data deduplication system</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong>, Nadesh, R.K., Menon, V.G., Venu, P., Abbasi, M. &amp; Khosravi, M.R.</div><div class="pub-v">Journal of Cloud Computing, 9(1), 44 (2020)</div><div class="pub-m">IF: 4.3 · Q1 · Citations: 28 · doi:10.1186/s13677-020-00214-6</div></div>
+        <div class="pub"><div class="pub-t">Brain-energized full body exoskeleton</div><div class="pub-a">Jacob, S., Alagirisamy, M., Menon, V.G., Kumar, B.M., Jhanjhi, N.Z., Ponnusamy, V., <strong>Shynu Padinjappurathu Gopalan</strong> &amp; Balasubramanian, V.</div><div class="pub-v">IEEE Access, 8, 100721–100731 (2020)</div><div class="pub-m">IF: 3.9 · Q1 · Citations: 30</div></div>
+        <div class="pub"><div class="pub-t">Computationally efficient privacy-preserving scheme</div><div class="pub-a">Vijayakumar, P., Chang, V., Jegatha Deborah, L., Balusamy, B. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">Future Generation Computer Systems, 78, 943–955 (2018)</div><div class="pub-m">IF: 7.3 · Q1 · Citations: 55 · doi:10.1016/j.future.2016.11.024</div></div>
+        <div class="pub"><div class="pub-t">Privacy-preserving secret key extraction protocol</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; Singh, K.J.</div><div class="pub-v">International Journal of Embedded Systems, 10(4), 287–300 (2018)</div><div class="pub-m">ESCI · IF 1.2 · Citations: 12</div></div>
+        <div class="pub"><div class="pub-t">Enhanced CP-ABE access control</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; John Singh, K.</div><div class="pub-v">Journal of Information Science and Engineering, 33(3), 837–858 (2017)</div><div class="pub-m">IF: 0.7 · Q3 · Citations: 15</div></div>
+        <div class="pub"><div class="pub-t">Temporal access control with user revocation</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; Singh, K.J.</div><div class="pub-v">Electronic Government, 13(3), 274–286 (2017)</div><div class="pub-m">IF: 1.8 · Q2 · Citations: 9</div></div>
+        <div class="pub"><div class="pub-t">ABE-based secure access control</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; Singh, K.J.</div><div class="pub-v">International Journal of Intelligent Engineering and Systems, 10(5), 29–37 (2017)</div><div class="pub-m">Scopus · CiteScore ≈ 3.1 · Q3 · Citations: 11</div></div>
+        <div class="pub"><div class="pub-t">Survey on access control in cloud environments</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong> &amp; John Singh, K.</div><div class="pub-v">Cybernetics and Information Technologies, 16(1), 19–38 (2016)</div><div class="pub-m">IF: 2.2 · Q2 · Citations: 22</div></div>
+      </div>
+
+      <div class="sub-head">Conference Publications</div>
+      <div class="pub-list">
+        <div class="pub"><div class="pub-t">Enhancing Security with Microcontroller-Based Face Detection in Sensitive Environments</div><div class="pub-a">Chawla, D., Bhattacharya, V. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">ICETITE (IEEE), 2024 · doi:10.1109/ic-ETITE58242.2024.10493589</div></div>
+        <div class="pub"><div class="pub-t">Stiffness Analysis for the Prediction of Fake News through Online Digital Networks in India</div><div class="pub-a">Sreeraag, G. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">AICAPS 2023 (IEEE) · doi:10.1109/AICAPS57044.2023.10074518</div></div>
+        <div class="pub"><div class="pub-t">A Comparative Analysis of Tweets from South Indian States based on COVID-19 Omicron Wave</div><div class="pub-a">Sreeraag, G. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">IC3SIS (IEEE), 2022</div></div>
+        <div class="pub"><div class="pub-t">Bidirectional Multi-tier Cognitive Swarm Drone 5G Network</div><div class="pub-a">Jacob, S., Menon, V.G., <strong>Shynu Padinjappurathu Gopalan</strong>, Fathima, S.K.S., Mahapatra, B. &amp; Joseph, S.</div><div class="pub-v">IEEE INFOCOM 2020 WKSHPS, Toronto, Canada, pp. 1219–1224</div></div>
+        <div class="pub"><div class="pub-t">Intelligent Vehicle Collision Avoidance System Using 5G-Enabled Drone Swarms</div><div class="pub-a">Jacob, S., Menon, V.G., Parvathi, R., <strong>Shynu Padinjappurathu Gopalan</strong>, Shemim, F.K.S., Mahapatra, B. &amp; Mukherjee, M.</div><div class="pub-v">ACM MobiCom DroneCom '20, New York, pp. 91–96</div></div>
+      </div>
+
+      <div class="sub-head">Books &amp; Book Chapters</div>
+      <div class="pub-list">
+        <div class="pub"><div class="pub-t">The Metaverse and Mental Well-Being: Potential Benefits and Challenges in the Current Era</div><div class="pub-a">Sreeraag, G. &amp; <strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">In: Metaverse for the Healthcare Industry, Springer, Cham (2024)</div><div class="pub-m">doi:10.1007/978-3-031-60073-9_7 · Scopus-indexed · Springer Nature Q1</div></div>
+        <div class="pub"><div class="pub-t">Edge Computing for Digital Twins</div><div class="pub-a"><strong>Shynu Padinjappurathu Gopalan</strong></div><div class="pub-v">In: Foundations of Digital Twins, Elsevier (2025, under review)</div><div class="pub-m">Bridges edge computing architectures with digital twin applications</div></div>
+      </div>
+    </section>
+
+    <!-- PATENTS -->
+    <section class="section" id="patents">
+      <div class="sec-lbl">Patents</div>
+      <div class="patent-list">
+        <div class="pat"><div class="pat-yr">2025</div><div><div class="pat-t">A multimodal edge-AI system for cognitive assessment</div><div class="pat-n">Indian Patent Application No. 202541043229</div></div></div>
+        <div class="pat"><div class="pat-yr">2025</div><div><div class="pat-t">AI-driven prognostic system for neurodegenerative diseases using multi-omics and digital biomarkers</div><div class="pat-n">Indian Patent Application No. 202541041653</div></div></div>
+        <div class="pat"><div class="pat-yr">2024</div><div><div class="pat-t">System and method for detecting and mitigating cyber threats in real-time using social network analysis</div><div class="pat-n">Indian Patent Application No. 202441103352</div></div></div>
+        <div class="pat"><div class="pat-yr">2024</div><div><div class="pat-t">Unified system for early software defect detection and prevention [UNIGUARD]</div><div class="pat-n">Indian Patent Application No. 202441080935</div></div></div>
+      </div>
+    </section>
+
+    <!-- TEACHING -->
+    <section class="section" id="teaching">
+      <div class="sec-lbl">Teaching &amp; Curriculum Development</div>
+      <div class="teach-grid">
+        <div class="t-card">
+          <div class="t-head">Undergraduate (3500+ students · 24+ years)</div>
+          <span class="c-tag">C / C++</span>
+          <span class="c-tag">Java</span>
+          <span class="c-tag">Python</span>
+          <span class="c-tag">Data Structures</span>
+          <span class="c-tag">Software Engineering</span>
+          <span class="c-tag">Cyber Forensics</span>
+        </div>
+        <div class="t-card">
+          <div class="t-head">Postgraduate (1500+ students · 24+ years)</div>
+          <span class="c-tag">Cloud Computing</span>
+          <span class="c-tag">Machine Learning</span>
+          <span class="c-tag">Software Engineering</span>
+          <span class="c-tag">Information Security</span>
+          <span class="c-tag">Data Science</span>
+        </div>
+      </div>
+      <div class="teach-note">
+        <strong>Online Teaching (VITOL):</strong> Handled UG/PG courses for the VIT Online Learning Institute, expanding digital pedagogy and accommodating diverse learner needs.<br><br>
+        <strong>Curriculum Development:</strong> Designed and implemented AI, Software Engineering, Big Data, and Cloud Computing courses aligned with ABET and international accreditation standards. Experienced in activity-led, project-based, flipped classroom, Moodle-based delivery, and outcome-based assessment (OBE). Delivered software-engineering courses integrating AI components and secure deployment practices.
+      </div>
+    </section>
+
+    <!-- PROFESSIONAL EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="sec-lbl">Professional Experience</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 2024 –<br>Present</div><div class="tl-body"><div class="tl-role">Professor (Grade 1)</div><div class="tl-org">Vellore Institute of Technology (VIT), Vellore, India</div><div class="tl-desc">Teaching UG and PG courses; supervising PhD, M.Tech and B.Tech scholars; leading funded research programmes in AI, cybersecurity and digital health.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 2022 –<br>Jun 2024</div><div class="tl-body"><div class="tl-role">Associate Professor (Senior)</div><div class="tl-org">Vellore Institute of Technology (VIT), Vellore, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 2020 –<br>Jun 2022</div><div class="tl-body"><div class="tl-role">Associate Professor (Grade 2)</div><div class="tl-org">Vellore Institute of Technology (VIT), Vellore, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 2018 –<br>Jun 2020</div><div class="tl-body"><div class="tl-role">Associate Professor (Grade 1)</div><div class="tl-org">Vellore Institute of Technology (VIT), Vellore, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Apr 2010 –<br>Jun 2018</div><div class="tl-body"><div class="tl-role">Assistant Professor (Senior)</div><div class="tl-org">Vellore Institute of Technology (VIT), Vellore, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Dec 2006 –<br>Mar 2010</div><div class="tl-body"><div class="tl-role">Assistant Professor</div><div class="tl-org">Union Christian College, Kerala, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Dec 2002 –<br>Nov 2006</div><div class="tl-body"><div class="tl-role">Lecturer</div><div class="tl-org">Union Christian College, Kerala, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Nov 2001 –<br>Nov 2002</div><div class="tl-body"><div class="tl-role">Lecturer</div><div class="tl-org">M.A. College of Engineering, Kerala, India</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Apr 2000 –<br>Oct 2001</div><div class="tl-body"><div class="tl-role">Software Engineer</div><div class="tl-org">Aggies InfoTech Pvt. Ltd., Kerala, India</div></div></div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+      <div class="sec-lbl">Education</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Awarded<br>26 Jun 2018</div><div class="tl-body"><div class="tl-role">Ph.D. in Computer Science</div><div class="tl-org">VIT University, Vellore, India</div><div class="tl-desc">Dissertation in cloud security and access control.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 2007 –<br>May 2009</div><div class="tl-body"><div class="tl-role">M.E. in Computer Science &amp; Engineering</div><div class="tl-org">Anna University, Chennai, India</div><div class="tl-desc">CGPA: 7.4</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Nov 1996 –<br>Dec 1999</div><div class="tl-body"><div class="tl-role">MCA in Computer Applications</div><div class="tl-org">Mahatma Gandhi University, Kerala, India</div><div class="tl-desc">Score: 75%</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">Jul 1992 –<br>May 1995</div><div class="tl-body"><div class="tl-role">B.Sc. in Mathematics</div><div class="tl-org">Mahatma Gandhi University, Kerala, India</div><div class="tl-desc">Score: 91%</div></div></div>
+      </div>
+    </section>
+
+    <!-- SUPERVISION -->
+    <section class="section" id="supervision">
+      <div class="sec-lbl">Supervision &amp; Mentoring</div>
+      <div class="sup-grid">
+        <div class="sup-card"><div class="sup-num">2</div><div class="sup-lbl">PhD Scholars Completed</div></div>
+        <div class="sup-card"><div class="sup-num">50+</div><div class="sup-lbl">PG / UG Dissertations Supervised</div></div>
+      </div>
+      <div class="sub-head" style="margin-top:0">Ongoing PhD Projects</div>
+      <div class="phd-item"><div class="phd-t">Predictive Analysis of Harmful Narratives in Social Networks</div><div class="phd-d">Addressing misinformation dynamics, influence propagation, and AI-driven countermeasures</div></div>
+      <div class="phd-item"><div class="phd-t">Adaptive and Trustworthy Collaborative Edge Intelligence</div><div class="phd-d">Focusing on secure, scalable, and explainable AI for edge-enabled healthcare and smart environments</div></div>
+      <div class="teach-note" style="margin-top:1.2rem">Supervised more than 50 postgraduate (M.Tech / M.E. / MCA) and undergraduate (B.Tech / B.Sc.) dissertations in AI, cybersecurity, software engineering, and digital health. Actively mentoring students for journal publications, prototype development, and international conference participation.</div>
+    </section>
+
+    <!-- SERVICE -->
+    <section class="section" id="service">
+      <div class="sec-lbl">Service, Leadership &amp; Grants</div>
+
+      <div class="sub-head">Conference Leadership &amp; Community Service</div>
+      <div class="svc-list">
+        <div class="svc"><div class="svc-badge">Chair</div><div class="svc-text"><strong>Conference Chair</strong> — IEEE IC-ETITE 2020 and IEEE IC-ETITE 2024 (International IEEE Conferences)</div></div>
+        <div class="svc"><div class="svc-badge">Organiser</div><div class="svc-text"><strong>Organised International Hackathons &amp; Technical Exhibitions</strong> — BOLT 1.0, BOLT 2.0, and TechNext2024 in conjunction with IEEE IC-ETITE, sponsored by Intel and CISCO, with industry collaboration</div></div>
+        <div class="svc"><div class="svc-badge">Session</div><div class="svc-text"><strong>Session Chair</strong> — Chaired multiple technical sessions at international IEEE, ACM, and Springer conferences, contributing to peer evaluation and dissemination of advanced research</div></div>
+        <div class="svc"><div class="svc-badge">PC Member</div><div class="svc-text"><strong>Programme Committee Member &amp; Organiser</strong> — International conferences, workshops, and symposia in AI, cybersecurity, and digital health, supporting community-building and research exchange</div></div>
+      </div>
+
+      <div class="sub-head">Editorial &amp; Reviewer Roles</div>
+      <div class="svc-list">
+        <div class="svc"><div class="svc-badge">Reviewer</div><div class="svc-text"><strong>84 reviews for 50 manuscripts (2020–2025)</strong> — IEEE Access, IEEE TITS, IEEE IoT Journal, IEEE T-NSE, Elsevier FGCS, Wiley's Concurrency &amp; Computation, ACM TALLIP, Springer, PeerJ, MDPI (Sensors, Mathematics, Diagnostics, Healthcare, Applied Sciences)</div></div>
+        <div class="svc"><div class="svc-badge">WoS</div><div class="svc-text">Web of Science ResearcherID: <strong>U-4818-2019</strong> — Regular reviewer for Q1 journals in AI, cybersecurity, and digital health. Recognised by IEEE, Elsevier, Springer, ACM, Wiley, MDPI, Taylor &amp; Francis.</div></div>
+      </div>
+
+      <div class="sub-head">Invited Talks &amp; Keynotes</div>
+      <div class="svc-list">
+        <div class="svc"><div class="svc-badge">FDP</div><div class="svc-text">Resource Person at Faculty Development Programme (2025) on <em>Python for Data Science</em>; invited talks at workshops and FDPs across institutions</div></div>
+        <div class="svc"><div class="svc-badge">Lectures</div><div class="svc-text">Invited lectures on cybersecurity, AI, misinformation dynamics, and digital health applications at national academic institutions</div></div>
+      </div>
+
+      <div class="sub-head">Research Funding &amp; Grant Writing</div>
+      <div class="svc-list">
+        <div class="svc"><div class="svc-badge">National</div><div class="svc-text">Submitted large-scale interdisciplinary proposals to <strong>AICTE, ICMR</strong> covering AI in healthcare, digital health, bioinformatics, cybersecurity, and sustainable systems; demonstrating capacity for EU-level funding mechanisms</div></div>
+        <div class="svc"><div class="svc-badge">MSCA</div><div class="svc-text"><strong>Marie Skłodowska-Curie Actions Postdoctoral Fellowship, Horizon Europe 2026</strong> — Developed and submitted with Technological University Dublin, Ireland as host institution. Evaluated <strong>above threshold at 73.8/100</strong> by the European Commission; not funded due to budget/ranking constraints</div></div>
+      </div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="section" id="awards">
+      <div class="sec-lbl">Awards, Recognition &amp; Memberships</div>
+      <div class="award-list">
+        <div class="award"><div class="award-icon">🏆</div><div class="award-text"><strong>VIT Research Award (2018–2023, consecutive years)</strong> — For sustained research productivity, impact, and contributions to high-quality publications</div></div>
+        <div class="award"><div class="award-icon">🎙️</div><div class="award-text"><strong>Conference Chair &amp; Committee Roles</strong> — Recognised by academic peers through conference chair roles, programme committee memberships, session chair invitations, and reviewer/editorial responsibilities in internationally reputed journals and conferences</div></div>
+        <div class="award"><div class="award-icon">🌍</div><div class="award-text"><strong>MSCA Evaluated Above Threshold (73.8/100)</strong> — European Commission evaluation of Horizon Europe postdoctoral fellowship proposal with Technological University Dublin (2026)</div></div>
+        <div class="award"><div class="award-icon">📖</div><div class="award-text"><strong>Open Science Advocacy</strong> — Over 90% of publications available in Open Access venues. Strong advocate of preprint sharing, dataset/code availability, and reproducible methodologies. Engaged in science communication, faculty training, and public awareness activities</div></div>
+        <div class="award"><div class="award-icon">🏅</div><div class="award-text"><strong>Professional Memberships</strong> — Senior Member, IEEE &amp; Member, ACM</div></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="sec-lbl">Contact</div>
+      <div class="contact-grid">
+        <a class="c-card" href="mailto:pgshynu@gmail.com"><div class="c-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div><div><div class="c-lbl">Email</div><div class="c-val">pgshynu@gmail.com</div></div></a>
+        <a class="c-card" href="tel:+919840800396"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.7 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.11h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76A16 16 0 0 0 15.24 16.09l.88-.87a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="c-lbl">Phone</div><div class="c-val">+91 98408 00396</div></div></a>
+        <div class="c-card" style="cursor:default"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="c-lbl">Address</div><div class="c-val">Padinjappurathu, Mamalassery P.O., Cochin, Kerala – 686 663</div></div></div>
+        <div class="c-card" style="cursor:default"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><div><div class="c-lbl">Institution</div><div class="c-val">School of CS &amp; Engineering, VIT Vellore, Tamil Nadu – 632 014</div></div></div>
+        <a class="c-card" href="#" target="_blank" style="grid-column:1/-1"><div class="c-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="c-lbl">Academic Profiles</div><div class="c-val">Google Scholar · Scopus · ORCID · Web of Science (ResearcherID: U-4818-2019) · LinkedIn — add your profile URLs here</div></div></a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2026 Shynu Padinjappurathu Gopalan · Professor of Computer Science, VIT Vellore<br>
+      <span style="opacity:0.5">Name note: Earlier publications indexed as "Shynu P G". All works are uniformly cited as "Shynu Padinjappurathu Gopalan".</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const navLinks = document.querySelectorAll('.s-nav a');
+  const sections = document.querySelectorAll('section[id]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
